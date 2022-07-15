@@ -7,6 +7,8 @@ Script that will list folders sizes recursively.
 
 Examples:
 
+In the first example, you can see easly the distributid size of the tree directory:
+
 `powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors -Display"`
 
 ```
@@ -25,6 +27,8 @@ C:\hp\McAfeeRules                   8014           0,01              0
 C:\hp\support\flexroot            152866           0,15              0
 C:\hp\support                     320415           0,31              0
 ```
+
+In the second example, it's created for automatize directory size repord and export into excel or compare diferent executions with the Comparacio.ps1 script. Remember that you can redirect output to a file to save it.
 
 `C:\Users\xbrun>powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors"`
 ```
@@ -46,8 +50,8 @@ Temps#nivell#DirectoryPath#FileSize#FileSize(MB)#FileSize(GB)
 
 Comparacio.ps1
 -----------------
-By executing several times the ScriptMida.ps1 mentioned before (over the same directory and without -Display option), you can compare two results. 
-This script show only the diferences bettween the input files:
+By executing several times the ScriptMida.ps1 mentioned before (over the same directory and without -Display option), you can compare two saved results. 
+The directories with the same size in the two inputs files are ignored. This script show only the diferences bettween the input files. 
 - New directories
 - Removed directories
 - Diferent size directories
