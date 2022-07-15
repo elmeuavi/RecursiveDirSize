@@ -7,7 +7,7 @@ Script that will list folders sizes recursively.
 
 Examples:
 
-In the first example, you can see easly the distributid size of the tree directory:
+In the first example, you can see easly the distributid size of the tree directory in bytes, MegaBytes and GigaBytes begining from the directory c:\hp and with a deep of 2 levels only. If powershell can't enter into directory, don't show error message because of `-HiddeErrors` parameter:
 
 `powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors -Display"`
 
@@ -28,7 +28,7 @@ C:\hp\support\flexroot            152866           0,15              0
 C:\hp\support                     320415           0,31              0
 ```
 
-In the second example, it's created for automatize directory size repord and export into excel or compare diferent executions with the Comparacio.ps1 script. Remember that you can redirect output to a file to save it.
+In the second example, it's created for automatize directory size repord and export into excel or compare diferent executions with the Comparacio.ps1 script. Remember that you can redirect output to a file to save it. A timeStamp and the level of the directory is also attached.
 
 `C:\Users\xbrun>powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors"`
 ```
@@ -72,3 +72,4 @@ C:\Users\Smith\AppData\Local              4      16470515348 16551865856   81350
 C:\Users\Smith\AppData                    3      18488804075 18570338258   81534183        77,76         0,08
 ```
 
+The `nivell` attribute indicates de level of the directory and is usefull when you are filtering long results in excel.
