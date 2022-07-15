@@ -52,6 +52,8 @@ This script show only the diferences bettween the input files:
 - Removed directories
 - Diferent size directories
 
+Example:
+
 `powershell -command ".\comparacio.ps1 c:\temp\hola2.txt c:\temp\hola20220716.txt"`
 
 ```
