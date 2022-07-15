@@ -7,7 +7,7 @@ Script that will list folders sizes recursively.
 
 Examples:
 
-powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors -Display"
+`powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors -Display"`
 
 ```
 DirectoryPath                 FolderSize FolderSize(MB) FolderSize(GB)
@@ -26,7 +26,7 @@ C:\hp\support\flexroot            152866           0,15              0
 C:\hp\support                     320415           0,31              0
 ```
 
-C:\Users\xbrun>powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors"
+`C:\Users\xbrun>powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors"`
 ```
 Temps#nivell#DirectoryPath#FileSize#FileSize(MB)#FileSize(GB)
 2022/07/16 01:21#2#C:\hp\BIN#347095#0.33#0
@@ -48,7 +48,8 @@ Comparacio.ps1
 -----------------
 By executing several times the ScriptMida.ps1 mentioned before (over the same directory and without -Display option), you can compare two results. 
 This script show only the diferences bettween the input files:
-powershell -command ".\comparacio.ps1 c:\temp\hola2.txt c:\temp\hola20220716.txt"
+
+`powershell -command ".\comparacio.ps1 c:\temp\hola2.txt c:\temp\hola20220716.txt"`
 
 ```
 DirectoryPath                             nivell FileSize1   FileSize2   diferencia diferenciaMb diferenciaGb
