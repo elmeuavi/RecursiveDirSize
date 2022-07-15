@@ -48,6 +48,9 @@ Comparacio.ps1
 -----------------
 By executing several times the ScriptMida.ps1 mentioned before (over the same directory and without -Display option), you can compare two results. 
 This script show only the diferences bettween the input files:
+- New directories
+- Removed directories
+- Diferent size directories
 
 `powershell -command ".\comparacio.ps1 c:\temp\hola2.txt c:\temp\hola20220716.txt"`
 
