@@ -41,7 +41,7 @@ Temps#nivell#DirectoryPath#FileSize#FileSize(MB)#FileSize(GB)
 2022/07/16 01:21#2#C:\hp\McAfeeRules#8014#0.01#0
 2022/07/16 01:21#3#C:\hp\support\flexroot#152866#0.15#0
 2022/07/16 01:21#2#C:\hp\support#320415#0.31#0.00
-'''
+```
 
 
 Comparacio.ps1
