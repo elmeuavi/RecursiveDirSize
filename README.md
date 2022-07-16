@@ -6,7 +6,7 @@ ScriptMida.ps1 - List folders sizes recursively until mentionet level
 
 Examples:
 
-In the first example, you can see easly the distributid size of the tree directory in bytes, MegaBytes and GigaBytes begining from the directory c:\hp and with a deep of 2 levels only. If powershell can't enter into directory, don't show error message because of `-HiddeErrors` parameter:
+In the first example, you can see easly the distributid size of the tree directory in bytes, MegaBytes and GigaBytes begining from the directory c:\hp and with a selected 2 `-Level` deep only. If powershell can't enter into directory, don't show error message because of `-HiddeErrors` parameter:
 
 `powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors -Display"`
 
@@ -27,7 +27,7 @@ C:\hp\support\flexroot            152866           0,15              0
 C:\hp\support                     320415           0,31              0
 ```
 
-In the second example, it's created for automatize directory size report and export into excel or compare diferent executions with the Comparacio.ps1 script. Remember that you can redirect output to a file to save it. A timeStamp and the level of the directory is also attached.
+In the second example, it's created for automatize directory size report and export into excel or compare diferent executions with the Comparacio.ps1 script. Remember that you can redirect output to a file to save it. A timeStamp and the level of the directory is also attached fora easy filtering.
 
 `powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors"`
 ```
@@ -49,7 +49,7 @@ Temps#nivell#DirectoryPath#FileSize#FileSize(MB)#FileSize(GB)
 
 Comparacio.ps1 - Compare diferents outputs of directories-sizes 
 -------------------------------------------------------------------------------
-By executing several times the ScriptMida.ps1 mentioned before (over the same directory and without -Display option), you can compare two saved results. 
+By executing several times the ScriptMida.ps1 mentioned before (over the same directory and without `-Display` option), you can compare two saved results. 
 The directories with the same size in the two inputs files are ignored. This script show only the diferences bettween the input files. 
 - New directories
 - Removed directories
