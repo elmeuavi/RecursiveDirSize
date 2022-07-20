@@ -17,9 +17,9 @@ param( [Parameter(Mandatory=$False,Position=1)][string]$Directory,[int]$level,[s
 
 
 function SumaRecursivaMida ($fullname){
-	$retorn= "" | select DirectoryPath,FolderSize,'FolderSize(MB)','FolderSize(GB)'; 
+	$retorn= "" | Select-Object DirectoryPath,FolderSize,'FolderSize(MB)','FolderSize(GB)'; 
 
-		$size_sum = (Get-ChildItem -Force -R $fullname -File -EA SilentlyContinue -ErrorVariable ProcessError | measure -Property Length -Sum).sum
+		$size_sum = (Get-ChildItem -Force -R $fullname -File -EA SilentlyContinue -ErrorVariable ProcessError | Measure-Object -Property Length -Sum).sum
 		$retorn.DirectoryPath=$fullname;
 		$retorn.FolderSize=[decimal]"$( [math]::round($size_sum,2))" ; 
 		$retorn.'FolderSize(MB)'=[decimal]"$( [math]::round($size_sum/1MB,2))" ; 
@@ -28,7 +28,7 @@ function SumaRecursivaMida ($fullname){
 
 		If ($ProcessError -AND -NOT $HiddeErrors)
 		{
-			$ProcessError | foreach { write-host -fore red $_ | select-string 'is denied'}
+			$ProcessError | ForEach-Object { write-host -fore red $_ | select-string 'is denied'}
 		}	
 		
 		return $retorn
@@ -47,28 +47,30 @@ function Get-Directory ($fullname,$D_ChildLevel)  {
 
 	If($local:fullname.Split('\').Length -le $D_ChildLevel -OR !$level )
 		{
-			$local:size_sum = (Get-ChildItem -Force $local:fullname -File -EA SilentlyContinue -ErrorVariable ProcessError | measure -Property Length -Sum).sum
+			$local:size_sum = (Get-ChildItem -Force $local:fullname -File -EA SilentlyContinue -ErrorVariable ProcessError | Measure-Object -Property Length -Sum).sum
 
 
 			[System.Collections.ArrayList]$local:Registres= @()
 			#$local:Registres = @{}
-			$local:obj= "" | select DirectoryPath,FolderSize,'FolderSize(MB)','FolderSize(GB)'; 
+			$local:obj= "" | Select-Object DirectoryPath,FolderSize,'FolderSize(MB)','FolderSize(GB)'; 
 				
 			$local:obj.DirectoryPath=$local:fullname; 
 			
 
 		############## Recall the function if the current directory is the directory itself ############33
-			if ((gi $local:fullname -Force) -is [system.io.directoryinfo] )
+			if ((Get-Item $local:fullname -Force) -is [system.io.directoryinfo] )
 			{  
 					$local:size_sum_tot = 0;
-					Get-ChildItem -Force $local:fullname -directory -EA SilentlyContinue -ErrorVariable ChildProcess | foreach { 
+					Get-ChildItem -Force $local:fullname -directory -EA SilentlyContinue -ErrorVariable ChildProcess | ForEach-Object { 
 						 $local:objectLocal = Get-Directory $_.fullname $D_ChildLevel
 #						 write-host $local:objectLocal
 						 	Foreach ($Element in $local:objectLocal){		
 #								write-host $Element.FolderSize
 								IF ($Element.FolderSize)
 								{
-									$local:size_sum_tot += $Element.FolderSize
+									If($local:obj.DirectoryPath.Split('\').Length +1 -eq $Element.DirectoryPath.Split('\').Length){
+										$local:size_sum_tot += $Element.FolderSize
+									}
 
 									$local:Registres += $Element
 								}else {
@@ -97,7 +99,7 @@ function Get-Directory ($fullname,$D_ChildLevel)  {
 				############## if the error variable is set, then output the error ###########
 				If ($ProcessError -AND -NOT $HiddeErrors)
 				{
-					$ProcessError | foreach { write-host -fore red $_ | select-string 'is denied'}
+					$ProcessError | ForEach-Object { write-host -fore red $_ | select-string 'is denied'}
 				}	
 
 				return $local:Registres 
@@ -131,10 +133,10 @@ If ($Directory -AND (Test-Path $Directory))
 		If ($Directory -Notmatch '\\' -AND (Test-Path $Directory))
 		{ $Directory  = $Directory+'\' }
 ############### If the directory input doesn't contains extra backslash such as c:\windows\, then increase $CurrentLevel value by one
-		If ( ($Directory.Split('\') | unique)[($Directory.Split('\') | unique).Length-1].Length -eq 0 )
+		If ( ($Directory.Split('\') | Get-unique)[($Directory.Split('\') | Get-unique).Length-1].Length -eq 0 )
 			{
 			write-Debug "extra slash statement executed."
-			$CurrentLevel = ($Directory.Split('\') | unique).Length
+			$CurrentLevel = ($Directory.Split('\') | Get-unique).Length
 			}
 		else
 			{
@@ -168,13 +170,13 @@ If([int]$Level)
 	$dia = Get-Date -Format "yyyy/MM/dd HH:mm"
 	
 	
-	Get-ChildItem -Force $Directory -directory | foreach { 
+	Get-ChildItem -Force $Directory -directory | ForEach-Object { 
 		$DiccionariArray += Get-Directory $_.fullname $TotalChildLevel 
 	}    
 
 
 	If ($display){
-			$DiccionariArray | FT
+			$DiccionariArray | Format-Table
 	}else {
 		write-host "Temps#nivell#DirectoryPath#FileSize#FileSize(MB)#FileSize(GB)"
 		Foreach ($Element in $DiccionariArray){
