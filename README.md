@@ -49,7 +49,7 @@ Temps#nivell#DirectoryPath#FileSize#FileSize(MB)#FileSize(GB)
 This second example format is implemented on the 1-LlançarScriptMida.bat for a direct execution.
 
 
-Comparacio.ps1 - Compare diferents outputs of directories-sizes 
+Comparacio.ps1 - Compare diferents executions outputs of same directories 
 -------------------------------------------------------------------------------
 By executing several times the ScriptMida.ps1 mentioned before (over the same directory and WITHOUT `-Display` option), you can compare two saved results. 
 The directories with the same size in the two inputs files are ignored. This script show only the diferences bettween the input files. 
