@@ -53,14 +53,14 @@ By executing several times the ScriptMida.ps1 mentioned before (over the same di
 The directories with the same size in the two inputs files are ignored. This script show only the diferences bettween the input files. 
 - New directories
 - Removed directories
-- Diferent size directories
+- Diferent size directories 
 
 Example:
 
 `powershell -command ".\comparacio.ps1 c:\temp\hola2.txt c:\temp\hola20220716.txt"`
 
 ```
-DirectoryPath                             nivell FileSize1   FileSize2   diferencia diferenciaMb diferenciaGb
+DirectoryPath                             nivell FileSize1   FileSize2    Diference  DiferenceMb  DiferenceGb
 -------------                             ------ ---------   ---------   ---------- ------------ ------------
 C:\Users\Smith\AppData\Roaming            4      1978597921  1978558661      -39260        -0,04            0
 C:\Users\Smith\Documents\Projecte         4      13864552    13864625            73            0            0
