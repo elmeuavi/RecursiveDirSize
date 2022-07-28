@@ -27,7 +27,7 @@ C:\hp\support\flexroot            152866           0,15              0
 C:\hp\support                     320415           0,31              0
 ```
 
-In the second example, it's created for automatize directory size report and export into excel or compare diferent executions with the Comparacio.ps1 script. Remember that you can redirect output to a file to save it. A timeStamp and the level of the directory is also attached fora easy filtering.
+In the second example, it's created for automatize directory size report and export into excel or compare diferent executions with the Comparacio.ps1 script. Remember that you can redirect output to a file to save it. A timeStamp and the directory level (second column) is also attached fora easy filtering.
 
 `powershell -command ".\scriptMida.ps1 -Directory c:\hp -level 2 -HiddeErrors"`
 ```
