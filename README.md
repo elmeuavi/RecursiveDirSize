@@ -46,10 +46,12 @@ Temps#nivell#DirectoryPath#FileSize#FileSize(MB)#FileSize(GB)
 2022/07/16 01:21#2#C:\hp\support#320415#0.31#0.00
 ```
 
+This second example format is implemented on the 1-LlançarScriptMida.bat for a direct execution.
+
 
 Comparacio.ps1 - Compare diferents outputs of directories-sizes 
 -------------------------------------------------------------------------------
-By executing several times the ScriptMida.ps1 mentioned before (over the same directory and without `-Display` option), you can compare two saved results. 
+By executing several times the ScriptMida.ps1 mentioned before (over the same directory and WITHOUT `-Display` option), you can compare two saved results. 
 The directories with the same size in the two inputs files are ignored. This script show only the diferences bettween the input files. 
 - New directories
 - Removed directories
@@ -60,7 +62,7 @@ Example:
 `powershell -command ".\comparacio.ps1 c:\temp\hola2.txt c:\temp\hola20220716.txt"`
 
 ```
-DirectoryPath                             nivell FileSize1   FileSize2    Diference  DiferenceMb  DiferenceGb
+DirectoryPath                             Level FileSize1   FileSize2    Diference  DiferenceMb  DiferenceGb
 -------------                             ------ ---------   ---------   ---------- ------------ ------------
 C:\Users\Smith\AppData\Roaming            4      1978597921  1978558661      -39260        -0,04            0
 C:\Users\Smith\Documents\Projecte         4      13864552    13864625            73            0            0
@@ -71,4 +73,6 @@ C:\Users\Smith\AppData\Local              4      16470515348 16551865856   81350
 C:\Users\Smith\AppData                    3      18488804075 18570338258   81534183        77,76         0,08
 ```
 
-The `nivell` attribute indicates de level of the directory and is usefull when you are filtering long results in excel.
+The `Level` attribute indicates de level of the directory and is usefull for example when you are filtering long results in excel.
+
+This example is implemented on the 2-LlançarScriptComparar.bat looking for the last 2 modified txt files at the same directory to compare them.
