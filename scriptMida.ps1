@@ -10,21 +10,28 @@ Script that will list folders sizes recursively.
 .PARAMETRES
 **Display: Show output human view. If parameter not present, the output is with a column separator character ;.
 **HiddeErrors: Don't show error message when you can not enter into directory
+**HiddeNumberFiles: Don't show number of files in directoris, just the size
 #>
 
-param( [Parameter(Mandatory=$False,Position=1)][string]$Directory,[int]$level,[switch]$display,[switch]$HiddeErrors)
+param( [Parameter(Mandatory=$False,Position=1)][string]$Directory,[int]$level,[switch]$display,[switch]$HiddeErrors,[switch]$HiddeNumberFiles)
 
 
 
 function SumaRecursivaMida ($fullname){
-	$retorn= "" | Select-Object DirectoryPath,FolderSize,'FolderSize(MB)','FolderSize(GB)'; 
+	$retorn= "" | Select-Object DirectoryPath,FolderSize,'FolderSize(MB)','FolderSize(GB)',fitxers; 
 
 		$size_sum = (Get-ChildItem -Force -R $fullname -File -EA SilentlyContinue -ErrorVariable ProcessError | Measure-Object -Property Length -Sum).sum
 		$retorn.DirectoryPath=$fullname;
 		$retorn.FolderSize=[decimal]"$( [math]::round($size_sum,2))" ; 
 		$retorn.'FolderSize(MB)'=[decimal]"$( [math]::round($size_sum/1MB,2))" ; 
 		$retorn.'FolderSize(GB)'=[decimal]"$( [math]::round($size_sum/1GB,2))" ; 
-#			write-host $retorn.FolderSize $fullname
+        
+        If (-NOT $HiddeNumberFiles)
+        {
+            $retorn.fitxers= (Get-ChildItem -File -Recurse $fullname -ErrorAction SilentlyContinue | Measure-Object).Count
+        }else{
+            $retorn.fitxers= 0
+        }
 
 		If ($ProcessError -AND -NOT $HiddeErrors)
 		{
@@ -51,10 +58,16 @@ function Get-Directory ($fullname,$D_ChildLevel)  {
 		{
 			$local:size_sum = (Get-ChildItem -Force $local:fullname -File -EA SilentlyContinue -ErrorVariable ProcessError | Measure-Object -Property Length -Sum).sum
 
+            If (-NOT $HiddeNumberFiles)
+            {
+                $local:fitxers_sum = (Get-ChildItem -File $fullname -ErrorAction SilentlyContinue | Measure-Object).Count
+            }else {
+                $local:fitxers_sum = 0
+            }
 
 			[System.Collections.ArrayList]$local:Registres= @()
 			#$local:Registres = @{}
-			$local:obj= "" | Select-Object DirectoryPath,FolderSize,'FolderSize(MB)','FolderSize(GB)'; 
+			$local:obj= "" | Select-Object DirectoryPath,FolderSize,'FolderSize(MB)','FolderSize(GB)',fitxers; 
 				
 			$local:obj.DirectoryPath=$local:fullname; 
 			
@@ -63,6 +76,7 @@ function Get-Directory ($fullname,$D_ChildLevel)  {
 			if ((gi $local:fullname -Force) -is [system.io.directoryinfo] )
 			{  
 					$local:size_sum_tot = 0;
+                    $local:fitxers_sum_tot = 0;
 					Get-ChildItem -Force $local:fullname -directory -EA SilentlyContinue -ErrorVariable ChildProcess | ForEach-Object { 
 						 $local:objectLocal = Get-Directory $_.fullname $D_ChildLevel
 #						 write-host $local:objectLocal
@@ -73,6 +87,7 @@ function Get-Directory ($fullname,$D_ChildLevel)  {
 									If($local:nivellActual +1 -eq $Element.DirectoryPath.Split('\').Length){
 										#write-host $local:obj.DirectoryPath $Element.DirectoryPath $Element.FolderSize $local:size_sum_tot
 										$local:size_sum_tot += $Element.FolderSize
+                                        $local:fitxers_sum_tot += $Element.fitxers
 									}else{
 										#write-host "No sumo " $Element.DirectoryPath " a " $local:obj.DirectoryPath
 									}
@@ -85,12 +100,14 @@ function Get-Directory ($fullname,$D_ChildLevel)  {
 					}
 				
 				$local:size_sum += $local:size_sum_tot 
+                $local:fitxers_sum += $local:fitxers_sum_tot 
 				
 				#write-host  "TOT" $local:size_sum $local:fullname		 			
 
 				$local:obj.'FolderSize'=[decimal]"$( [math]::round($local:size_sum,2))" ; 
 				$local:obj.'FolderSize(MB)'=[decimal]"$( [math]::round($local:size_sum/1MB,2))" ; 
 				$local:obj.'FolderSize(GB)'=[decimal]"$( [math]::round($local:size_sum/1GB,2))" ; 
+                $local:obj.fitxers=$local:fitxers_sum;
 				
 				if ($local:size_sum -ne 0){
 					#$local:Registres[$local:Registres.Count]=$local:obj
@@ -182,10 +199,10 @@ If([int]$Level)
 	If ($display){
 			$DiccionariArray | FT
 	}else {
-		write-host "Temps;nivell;DirectoryPath;FileSize;FileSize(MB);FileSize(GB)"
+		write-host "Temps;nivell;DirectoryPath;FileSize;FileSize(MB);FileSize(GB);Fitxers"
 		Foreach ($Element in $DiccionariArray){
 			#write-host  $Element.DirectoryPath $Element 
-			$linia = $dia +';'+ ($Element.DirectoryPath.Split('\').Length -1) +';'+ $Element.DirectoryPath +';'+ $Element.FolderSize +';'+ $Element.'FolderSize(MB)' +';'+ $Element.'FolderSize(GB)' 
+			$linia = $dia +';'+ ($Element.DirectoryPath.Split('\').Length -1) +';'+ $Element.DirectoryPath +';'+ $Element.FolderSize +';'+ $Element.'FolderSize(MB)' +';'+ $Element.'FolderSize(GB)' +';'+ $Element.fitxers 
 			 write-host $linia 
 		}
 
