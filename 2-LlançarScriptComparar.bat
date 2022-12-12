@@ -16,7 +16,12 @@ echo %ULTIM%
 echo %PENULTIM%
 
 
-powershell -command ".\comparacio.ps1 %PENULTIM% %ULTIM%"
+REM incremento la mida virtual de la pantalla cmd
+powershell -command "$pshost = Get-Host;$pswindow = $pshost.UI.RawUI;$newsize = $pswindow.BufferSize;$newsize.width = 800;$pswindow.buffersize = $newsize;"
+
+powershell -command ".\comparacio.ps1 %PENULTIM% %ULTIM%" > resultatCompara.txt
+
+start resultatCompara.txt
 
 
 pause
