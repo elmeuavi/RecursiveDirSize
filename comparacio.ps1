@@ -20,27 +20,27 @@ write-host  "Directoris al fitxer 2 "  $max2
 while (($max1 -gt $i1) -and ($max2 -gt $i2)){
     if ($dia1[$i1].DirectoryPath -eq $dia2[$i2].DirectoryPath) {
         if ($dia1[$i1].FileSize -ne $dia2[$i2].FileSize) {
-            $Resultat += [pscustomobject]@{DirectoryPath=$dia1[$i1].DirectoryPath;nivell=$dia1[$i1].nivell;FileSize1=$dia1[$i1].FileSize;FileSize2=$dia2[$i2].FileSize}
+            $Resultat += [pscustomobject]@{DirectoryPath=$dia1[$i1].DirectoryPath;nivell=$dia1[$i1].nivell;Fitxers1=$dia1[$i1].fitxers;Fitxers2=$dia2[$i2].fitxers;FileSize1=$dia1[$i1].FileSize;FileSize2=$dia2[$i2].FileSize}
         }
 	    $i1 +=1
         $i2 +=1
     }
     if ($dia1[$i1].DirectoryPath -gt $dia2[$i2].DirectoryPath) {
-        $Resultat += [pscustomobject]@{DirectoryPath=$dia2[$i2].DirectoryPath;nivell=$dia2[$i2].nivell;FileSize1=0;FileSize2=$dia2[$i2].FileSize}
+        $Resultat += [pscustomobject]@{DirectoryPath=$dia2[$i2].DirectoryPath;nivell=$dia2[$i2].nivell;Fitxers1=0;Fitxers2=$dia2[$i2].fitxers;FileSize1=0;FileSize2=$dia2[$i2].FileSize}
         $i2 +=1
     }
     if ($dia1[$i1].DirectoryPath -lt $dia2[$i2].DirectoryPath) {
-        $Resultat += [pscustomobject]@{DirectoryPath=$dia1[$i1].DirectoryPath;nivell=$dia1[$i1].nivell;FileSize1=$dia1[$i1].FileSize;FileSize2=0}
+        $Resultat += [pscustomobject]@{DirectoryPath=$dia1[$i1].DirectoryPath;nivell=$dia1[$i1].nivell;Fitxers1=$dia1[$i1].fitxers;Fitxers2=0;FileSize1=$dia1[$i1].FileSize;FileSize2=0}
 	    $i1 +=1
     }
 }
 
 while ($max1 -gt $i1){
-    $Resultat += [pscustomobject]@{DirectoryPath=$dia1[$i1].DirectoryPath;nivell=$dia1[$i1].nivell;FileSize1=$dia1[$i1].FileSize;FileSize2=0}
+    $Resultat += [pscustomobject]@{DirectoryPath=$dia1[$i1].DirectoryPath;nivell=$dia1[$i1].nivell;Fitxers1=$dia1[$i1].fitxers;Fitxers2=0;FileSize1=$dia1[$i1].FileSize;FileSize2=0}
     $i1 +=1
 }
 while ($max2 -gt $i2){
-    $Resultat += [pscustomobject]@{DirectoryPath=$dia2[$i2].DirectoryPath;nivell=$dia2[$i2].nivell;FileSize1=0;FileSize2=$dia2[$i2].FileSize}
+    $Resultat += [pscustomobject]@{DirectoryPath=$dia2[$i2].DirectoryPath;nivell=$dia2[$i2].nivell;Fitxers1=0;Fitxers2=$dia2[$i2].fitxers;FileSize1=0;FileSize2=$dia2[$i2].FileSize}
     $i2 +=1
 }
 
